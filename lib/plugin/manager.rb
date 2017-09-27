@@ -84,9 +84,8 @@ module Spatula
                 end
                 plugin_instance = plugin_class.new(self, id)
             rescue Exception => exception
-                result_message = "Failed to load plugin '#{id}': #{exception} - #{exception.backtrace}"
-                Spatula.logger.debug('PLUGIN_MANAGER') { result_message }
-                return false, result_message
+                Spatula.logger.debug('PLUGIN_MANAGER') { "Failed to load plugin '#{id}': #{exception} - #{exception.backtrace}" }
+                return false, "Failed to load plugin '#{id}'"
             end
 
             @plugins[id] = {
