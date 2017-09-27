@@ -14,18 +14,22 @@ class ResponsesPlugin
 
         on_event_type :slack_message,
             where: {
-                text_unescaped: /(?:when you hear|when someone says) (?<trigger>.{4,}?) (?<action_phrase>#{action_phrases_string}) (?<response>.*)/
+                addresses_me: true,
+                text_unescaped: /(?:when you hear|when someone says) (?<trigger>.{3,}?) (?<action_phrase>#{action_phrases_string}) (?<response>.*)/
             },
             trigger: method(:define_trigger)
 
         on_event_type :slack_message,
             where: {
-                text_mentions_me: true,
+                addresses_me: true,
                 text_unescaped: /inspect response trigger (?<trigger>.*)/
             },
             trigger: method(:inspect_trigger)
 
         on_event_type :slack_message,
+            where: {
+                addresses_me: false,
+            },
             trigger: method(:slack_message)
 
         @data[:triggers] ||= {}
