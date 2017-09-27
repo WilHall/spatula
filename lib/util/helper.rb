@@ -1,6 +1,7 @@
 require 'slack-ruby-client'
 require 'pragmatic_tokenizer'
 require 'json'
+
 module Spatula
     module Util
 
@@ -70,6 +71,7 @@ module Spatula
                 api_args = kwargs.merge({
                     channel: conversation,
                     text: text,
+                    parse: :full,
                     as_user: true
                 })
 
