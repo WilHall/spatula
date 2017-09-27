@@ -1,0 +1,14 @@
+---
+:client:
+    :token: xoxb-xxxxx
+    :user_agent: Spatula/0.1
+    :username: spatula
+:logger:
+    :level: DEBUG
+:tokenizer:
+    # for options, see: https://github.com/diasks2/pragmatic_tokenizer#usage
+    :downcase: false
+:plugin:
+    :plugins:
+        :test: {}
+...

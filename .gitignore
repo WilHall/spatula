@@ -1,0 +1,6 @@
+.DS_Store
+config/event_types.yml
+config/spatula.yml
+data/**
+log/**
+plugins/test/**
