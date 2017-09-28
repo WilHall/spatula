@@ -2,7 +2,6 @@
 :client:
     :token: xoxb-xxxxx
     :user_agent: Spatula/0.1
-    :username: spatula
 :logger:
     :level: DEBUG
 :tokenizer:
