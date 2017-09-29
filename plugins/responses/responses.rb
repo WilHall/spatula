@@ -105,6 +105,12 @@ class ResponsesPlugin
     end
 
     def slack_message(**data)
+
+        # if response_chance is set, only respond that percent of the time
+        if config.key?(:response_chance)
+            return unless Random.rand(100) <= config[:response_chance]
+        end
+
         matched_triggers = []
         @data[:triggers].each do |trigger, trigger_data|
             regex_trigger = Regexp.escape(trigger)

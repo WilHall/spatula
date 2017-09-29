@@ -10,4 +10,6 @@
 :plugin:
     :plugins:
         :example: {}
+        :responses:
+          :response_chance: 70
 ...
