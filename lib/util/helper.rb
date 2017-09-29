@@ -72,6 +72,9 @@ module Spatula
                     channel: conversation,
                     text: text,
                     parse: :full,
+                    link_names: true,
+                    unfurl_links: true,
+                    unfurl_media: true,
                     as_user: true
                 })
 
