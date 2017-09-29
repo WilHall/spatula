@@ -15,14 +15,14 @@ class ResponsesPlugin
         on_event_type :slack_message,
             where: {
                 addresses_me: true,
-                text_unescaped: /(?:when you hear|when someone says) (?<trigger>.{3,}?) (?<action_phrase>#{action_phrases_string}) (?<response>.*)/
+                text_unescaped: /(?:when you hear|when someone says) (?<trigger>.{3,}?) (?<action_phrase>#{action_phrases_string}) (?<response>.*)/i
             },
             trigger: method(:define_trigger)
 
         on_event_type :slack_message,
             where: {
                 addresses_me: true,
-                text_unescaped: /inspect response trigger (?<trigger>.*)/
+                text_unescaped: /inspect response trigger (?<trigger>.*)/i
             },
             trigger: method(:inspect_trigger)
 
@@ -110,11 +110,11 @@ class ResponsesPlugin
             regex_trigger = Regexp.escape(trigger)
             regex = Regexp.union(
                 # starts with
-                /^#{regex_trigger}/,
+                /^#{regex_trigger}/i,
                 # ends with
-                /#{regex_trigger}$/,
+                /#{regex_trigger}$/i,
                 # buffered by whitespace
-                /[\s]{1,}#{regex_trigger}[\s]{1,}/
+                /[\s]{1,}#{regex_trigger}[\s]{1,}/i
             )
 
             if regex.match(data[:text_unescaped])
