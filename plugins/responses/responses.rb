@@ -35,7 +35,7 @@ class ResponsesPlugin
         @data[:triggers] ||= {}
     end
 
-    def define_trigger(args, trigger:, response:, action_phrase:)
+    def define_trigger(event_data, trigger:, response:, action_phrase:)
         # determine the trigger action
         trigger_action = nil
         @@actions.each do |action, action_phrases|
@@ -84,12 +84,12 @@ class ResponsesPlugin
         end
     end
 
-    def inspect_trigger(args, trigger:)
+    def inspect_trigger(event_data, trigger:)
         trigger_data = @data[:triggers][trigger]
 
         if trigger_data.nil?
             Spatula.helper.message(
-                conversation: args[:channel],
+                conversation: event_data[:channel],
                 text: "'#{trigger}' is not a known trigger"
             )
         else
@@ -98,14 +98,13 @@ class ResponsesPlugin
                 text += " '#{action}' result will be one of '#{responses.join('\', \'')}'."
             end
             Spatula.helper.message(
-                conversation: args[:channel],
+                conversation: event_data[:channel],
                 text: text
             )
         end
     end
 
     def slack_message(**data)
-        puts data.inspect
         matched_triggers = []
         @data[:triggers].each do |trigger, trigger_data|
             regex_trigger = Regexp.escape(trigger)

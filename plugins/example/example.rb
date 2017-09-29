@@ -18,21 +18,21 @@ class ExamplePlugin
             trigger: :remember
     end
 
-    def remember(args, thing:)
+    def remember(event_data, thing:)
         @data[:thing] = thing;
         @data.save!
 
-        user_name = args[:user_name]
-        channel = args[:channel]
+        user_name = event_data[:user_name]
+        channel = event_data[:channel]
         Spatula.helper.message(
             conversation: channel,
             text: "Okay @#{user_name}, I'll remember that."
         )
     end
 
-    def recall(**kwargs)
-        user_name = kwargs[:user_name]
-        channel = kwargs[:channel]
+    def recall(**event_data)
+        user_name = event_data[:user_name]
+        channel = event_data[:channel]
         thing = @data.fetch(:thing, nil)
         if thing.nil?
             Spatula.helper.message(
