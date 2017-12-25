@@ -32,16 +32,16 @@ class TwitterPlugin
                         conversation: event_data[:channel],
                         attachments: [
                             {
-                                text: tweet.text,
+                                text: tweet.full_text,
                                 image_url: tweet.media.media_uri
                             }
                         ]
                     )
                 else
                     Spatula.helper.message(
-                    conversation: event_data[:channel],
-                    text: tweet.text
-                )
+                        conversation: event_data[:channel],
+                        text: tweet.full_text
+                    )
                 end
             end
         end
