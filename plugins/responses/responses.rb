@@ -141,9 +141,9 @@ class ResponsesPlugin
                 )
             elsif action == :react
                 Spatula.helper.react(
-                    conversation: data[:channel],
-                    timestamp: data[:ts],
-                    emoji_name: result
+                    emoji_name: result,
+                    channel: data[:channel],
+                    timestamp: data[:ts]
                 )
             end
         end
