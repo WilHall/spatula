@@ -143,7 +143,7 @@ module Spatula
                     end
                 end
 
-                if !matches or matches.empty?
+                if !matches or (matches and matches.empty?)
                     Spatula.logger.debug('DISPATCHER') {"Skipping dispatch of event '#{event_type}' to listener #{listener.inspect} because where clause did not match"}
                     next
                 end
