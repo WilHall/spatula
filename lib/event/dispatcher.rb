@@ -111,16 +111,31 @@ module Spatula
 
                     # if the where clause value is a regex, perform regex matching
                     if value.is_a?(Regexp)
+
                         # try to match the regex
-                        match_data = value.match(event_data[key])
+                        if listener[:where][:multi]
+                            matches = {}
+                            event_data[key].scan(value) do |match_text|
+                                matchobj = $~
+
+                                next unless matchobj
+
+                                matchobj.names.each_with_index do |name, i|
+                                    matches[name] ||= []
+                                    matches[name] << matchobj.captures[i]
+                                end
+                            end
+                        else
+                            match_data = value.match(event_data[key])
+                            matches = match_data.nil? ? {} : Hash[ match_data.names.zip( match_data.captures ) ]
+                        end
 
                         # break when the regex doesn't match
-                        matches = !match_data.nil?
-                        break unless matches
+                        break if matches.empty?
 
                         # when the regex does match, merge the matching capture groups with
                         # ones from previous clauses
-                        regex_capture_groups.merge!(Hash[ match_data.names.zip( match_data.captures ) ].symbolize_keys)
+                        regex_capture_groups.merge!(matches.symbolize_keys)
                     else
                         # is the where clause value is not a regex, compare the values using ==
                         matches = (value == event_data[key])
@@ -128,7 +143,7 @@ module Spatula
                     end
                 end
 
-                unless matches
+                if !matches or matches.empty?
                     Spatula.logger.debug('DISPATCHER') {"Skipping dispatch of event '#{event_type}' to listener #{listener.inspect} because where clause did not match"}
                     next
                 end

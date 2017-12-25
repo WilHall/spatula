@@ -67,10 +67,9 @@ module Spatula
                 return nil
             end
 
-            def message(conversation:, text:, **kwargs)
+            def message(conversation:, **kwargs)
                 api_args = kwargs.merge({
                     channel: conversation,
-                    text: text,
                     parse: :full,
                     link_names: true,
                     unfurl_links: true,
@@ -86,14 +85,19 @@ module Spatula
                 message(conversation: conversation, text: "#{result_emoji} #{text}", **kwargs)
             end
 
-            def react(conversation:, timestamp:, emoji_name:, **kwargs)
+            def react(emoji_name:, **kwargs)
                 api_args = kwargs.merge({
-                    channel: conversation,
-                    timestamp: timestamp,
                     name: emoji_name
                 })
 
                 Spatula.web.reactions_add(**api_args)
+            end
+
+            def get_reactions(**kwargs)
+                api_args = kwargs.merge({
+                    full: true
+                })
+                Spatula.web.reactions_get(**api_args)
             end
         end
 

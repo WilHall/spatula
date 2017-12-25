@@ -143,8 +143,15 @@ module Spatula
                 return false, result_message
             end
 
-            unload_plugin(id)
-            load_plugin(id)
+            result, result_message = unload_plugin(id)
+            if not result
+                return false, result_message
+            end
+
+            result, result_message = load_plugin(id)
+            if not result
+                return false, result_message
+            end
 
             result_message = "Reloaded plugin '#{id}'"
             Spatula.logger.debug('PLUGIN_MANAGER') { result_message }
